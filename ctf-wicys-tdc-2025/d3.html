@@ -136,18 +136,18 @@
     }
 
     @media (max-width: 900px) {
-      .writeup-layout { grid-template-columns: 1fr; padding: 2rem 1.25rem 4rem; }
+      .writeup-layout { grid-template-columns: minmax(0, 1fr); padding: 2rem 1.25rem 4rem; }
       .toc { position: static; order: -1; }
     }
     @media (max-width: 600px) {
       .writeup-meta { gap: .4rem; }
       .writeup-layout { overflow-x: hidden; padding: 1.5rem 1rem 3rem; width: 100%; box-sizing: border-box; }
-      .writeup-main { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
-      .writeup-section p, .writeup-section li { overflow-wrap: break-word; word-break: break-word; }
+      .writeup-body, .writeup-main { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
+      .writeup-section h2, .writeup-section h3, .writeup-section p, .writeup-section li { overflow-wrap: break-word; word-break: break-word; }
       .code-block { font-size: .75rem; padding: .65rem .85rem; overflow-x: auto; white-space: pre; }
       .writeup-table { display: block; overflow-x: auto; width: 100%; }
       .writeup-table tbody td:first-child { white-space: normal; width: auto; }
-    } }
+    }
   </style>
 </head>
 <body>

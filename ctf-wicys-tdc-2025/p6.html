@@ -35,16 +35,20 @@
     .writeup-section h3 { font-family: var(--font-display); font-size: .9rem; font-weight: 700; color: var(--yellow-neon); text-shadow: var(--glow-yellow); letter-spacing: .08em; margin: 1.5rem 0 .75rem; }
     .writeup-section p { font-family: var(--font-body); font-size: 1rem; color: rgba(240,238,248,.75); font-weight: 300; line-height: 1.85; }
     .scenario-img { display: block; max-width: 100%; border: 1px solid var(--purple-vivid); border-radius: 4px; margin: 1.5rem 0; box-shadow: 0 0 28px rgba(95,28,189,.35); }
-    @media (max-width: 900px) { .writeup-layout { grid-template-columns: 1fr; padding: 2rem 1.25rem 4rem; } .toc { position: static; order: -1; } }
+
+    @media (max-width: 900px) {
+      .writeup-layout { grid-template-columns: minmax(0, 1fr); padding: 2rem 1.25rem 4rem; }
+      .toc { position: static; order: -1; }
+    }
     @media (max-width: 600px) {
       .writeup-meta { gap: .4rem; }
       .writeup-layout { overflow-x: hidden; padding: 1.5rem 1rem 3rem; width: 100%; box-sizing: border-box; }
-      .writeup-main { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
-      .writeup-section p, .writeup-section li { overflow-wrap: break-word; word-break: break-word; }
+      .writeup-body, .writeup-main { width: 100%; max-width: 100%; min-width: 0; overflow: hidden; }
+      .writeup-section h2, .writeup-section h3, .writeup-section p, .writeup-section li { overflow-wrap: break-word; word-break: break-word; }
       .code-block { font-size: .75rem; padding: .65rem .85rem; overflow-x: auto; white-space: pre; }
       .writeup-table { display: block; overflow-x: auto; width: 100%; }
       .writeup-table tbody td:first-child { white-space: normal; width: auto; }
-    } }
+    }
   </style>
 </head>
 <body>
