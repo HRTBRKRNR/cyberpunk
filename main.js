@@ -281,10 +281,10 @@ observeElements('.animate-in');
 
   const deniedLines = [
     '// ACCESS DENIED. try harder, choom.',
-    '// WRONG PASSPHRASE. the net is watching.',
+    '// WRONG PASSPHRASE: real netrunners inspect the code.',
     '// INVALID COMMAND. are you even a netrunner?',
     '// AUTHENTICATION FAILED. nice try, flatline.',
-    '// INCORRECT. who sent you?',
+    '// CONNECTION TERMINATED. NETRUNNER FLATLINED.',
   ];
 
   let denyCount = 0;
@@ -303,17 +303,36 @@ observeElements('.animate-in');
     // Check the source. Inspect the code or Ask your AI bot of choice to hunt for you.
     // The clue is sitting out there in the open.
     // You just have to decide whether you're the kind of Netrunner who looks beneath the surface.
-    if (cmd === 'breachprotocol') {
+    let encoded = '';
+    try { encoded = btoa(cmd); } catch (err) { /* non-Latin1 input can't match */ }
+    // Security through obscurity is not best practice. But hey, this is just a fun easter egg.
+    if (encoded === 'YnJlYWNocHJvdG9jb2w=') {
       output.innerHTML =
         '<div><span class="t-grant">// authenticating...</span></div>' +
         '<div><span class="t-grant">// identity confirmed. welcome back, netrunner.</span></div>' +
         '<div><span class="t-grant">// LOADING LORE . . .</span></div>' +
         '<div>&nbsp;</div>' +
         '<div><span class="t-grant">❯ </span><a href="lore.html" class="lore-link">[ACCESS GRANTED — ENTER THE LORE]</a></div>';
+    } else if (cmd === 'help') {
+      output.innerHTML = '<div><span style="color: var(--yellow-neon); text-shadow: var(--glow-yellow);">// Initiate the protocol, you should know this!</span></div>';
     } else {
-      const line = deniedLines[denyCount % deniedLines.length];
+      const idx = denyCount % deniedLines.length;
+      const line = deniedLines[idx];
       denyCount++;
       output.innerHTML = '<div><span class="t-deny">' + line + '</span></div>';
+
+      // Last line in the cycle: terminal flatlines until the user reboots it
+      if (idx === deniedLines.length - 1) {
+        input.disabled = true;
+        output.innerHTML += '<div>&nbsp;</div><div><span class="t-grant">❯ </span><a href="#" class="lore-link" id="loreReboot">[ REBOOT ]</a></div>';
+        document.getElementById('loreReboot').addEventListener('click', function(e) {
+          e.preventDefault();
+          output.innerHTML = '';
+          denyCount = 0;
+          input.disabled = false;
+          input.focus();
+        });
+      }
     }
   }
 

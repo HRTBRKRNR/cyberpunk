@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>// BSides Delaware 2026 :: SOLVING FOR Y</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .writeup-hero { min-height: 36vh; display: flex; align-items: flex-end; padding: 7rem 2rem 3rem; position: relative; overflow: hidden; background: radial-gradient(ellipse 70% 60% at 15% 60%, rgba(23,13,133,.5) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 90% 20%, rgba(77,250,84,.08) 0%, transparent 60%), linear-gradient(180deg, #06040F 0%, #0E093D 70%, #06040F 100%); }
+    .writeup-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(95,28,189,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(95,28,189,.1) 1px, transparent 1px); background-size: 48px 48px; animation: gridScroll 20s linear infinite; }
+    .writeup-hero-content { position: relative; z-index: 2; max-width: 1100px; width: 100%; margin: 0 auto; }
+    .back-btn { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--font-mono); font-size: .72rem; color: var(--green-neon); text-decoration: none; letter-spacing: .12em; margin-bottom: 1.5rem; transition: text-shadow .2s; }
+    .back-btn:hover { text-shadow: var(--glow-green); }
+    .writeup-title { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 900; color: var(--white); letter-spacing: .03em; margin-bottom: 1rem; line-height: 1.1; }
+    .writeup-title span { color: var(--green-neon); text-shadow: var(--glow-green); }
+    .writeup-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.2rem; align-items: center; }
+    .meta-badge { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .1em; padding: .25rem .75rem; border-radius: 2px; border: 1px solid var(--grey-dim); background: rgba(6,4,15,.6); color: var(--white); }
+    .meta-badge.difficulty-easy { border-color: var(--green-neon); color: var(--green-neon); text-shadow: var(--glow-green); }
+    .meta-badge.category { border-color: var(--purple-vivid); color: var(--magenta); background: rgba(95,28,189,.2); }
+    .writeup-tagline { font-family: var(--font-mono); font-size: .85rem; color: rgba(240,238,248,.6); letter-spacing: .08em; font-style: italic; }
+    .writeup-layout { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem; display: grid; grid-template-columns: 1fr 260px; gap: 3rem; align-items: start; }
+    .toc { position: sticky; top: 80px; background: rgba(6,4,15,.8); border: 1px solid var(--purple-vivid); border-radius: 4px; padding: 1.25rem; box-shadow: var(--glow-purple); }
+    .toc-title { font-family: var(--font-display); font-size: .72rem; font-weight: 700; color: var(--yellow-neon); text-shadow: var(--glow-yellow); letter-spacing: .15em; margin-bottom: 1rem; padding-bottom: .6rem; border-bottom: 1px solid var(--grey-dim); }
+    .toc ul { list-style: none; } .toc ul li { margin-bottom: .4rem; }
+    .toc ul li a { font-family: var(--font-mono); font-size: .72rem; color: rgba(240,238,248,.55); text-decoration: none; letter-spacing: .06em; transition: color .2s, text-shadow .2s; display: block; padding: .2rem 0 .2rem .6rem; border-left: 2px solid transparent; }
+    .toc ul li a:hover { color: var(--green-neon); text-shadow: var(--glow-green); border-left-color: var(--green-neon); }
+    .writeup-section { margin-bottom: 3.5rem; }
+    .writeup-section h2 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--magenta); text-shadow: var(--glow-magenta); letter-spacing: .08em; margin-bottom: 1.25rem; padding-bottom: .6rem; border-bottom: 1px solid var(--grey-dim); display: flex; align-items: center; gap: .75rem; }
+    .writeup-section h2::before { content: '//'; color: var(--purple-vivid); font-size: .85rem; }
+    .writeup-section h3 { font-family: var(--font-display); font-size: .9rem; font-weight: 700; color: var(--yellow-neon); text-shadow: var(--glow-yellow); letter-spacing: .08em; margin: 1.5rem 0 .75rem; }
+    .writeup-section p { font-family: var(--font-body); font-size: 1rem; color: rgba(240,238,248,.75); font-weight: 300; line-height: 1.85; }
+    .writeup-section ul, .writeup-section ol { font-family: var(--font-body); font-size: 1rem; color: rgba(240,238,248,.75); font-weight: 300; line-height: 1.85; padding-left: 1.5rem; margin: .75rem 0; }
+    .writeup-section li { margin-bottom: .35rem; }
+    .writeup-section ul ul, .writeup-section ol ul { margin-top: .35rem; }
+    .writeup-section b, .writeup-section strong { color: var(--white); font-weight: 600; }
+    .writeup-section a { color: var(--magenta); text-decoration: none; border-bottom: 1px solid rgba(211,74,232,.35); transition: color .2s, border-color .2s, text-shadow .2s; }
+    .writeup-section a:hover { color: var(--green-neon); text-shadow: var(--glow-green); border-bottom-color: var(--green-neon); }
+    .code-block { font-family: var(--font-mono); font-size: .82rem; color: var(--green-neon); background: rgba(6,4,15,.9); border: 1px solid var(--purple-vivid); border-left: 3px solid var(--green-neon); border-radius: 2px; padding: .85rem 1.25rem; margin: 1rem 0; overflow-x: auto; white-space: pre; }
+    .code-block::before { content: '❯ '; color: var(--magenta); }
+    .code-inline { font-family: var(--font-mono); font-size: .88rem; background: rgba(95,28,189,.18); border: 1px solid rgba(95,28,189,.4); border-radius: 3px; padding: .1rem .4rem; color: var(--magenta); }
+    .image-container { margin: 1.25rem 0; }
+    .image-container img { width: 100%; border: 1px solid var(--purple-vivid); border-radius: 4px; display: block; }
+    .img-caption { font-family: var(--font-mono); font-size: .68rem; color: rgba(240,238,248,.35); letter-spacing: .08em; margin-top: .4rem; text-align: center; }
+    .writeup-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .9rem; }
+    .writeup-table thead td { font-family: var(--font-display); font-size: .72rem; font-weight: 700; color: var(--yellow-neon); text-shadow: var(--glow-yellow); letter-spacing: .1em; padding: .75rem 1rem; background: rgba(95,28,189,.2); border: 1px solid var(--purple-vivid); }
+    .writeup-table tbody tr { border-bottom: 1px solid var(--grey-dim); transition: background .2s; }
+    .writeup-table tbody tr:hover { background: rgba(95,28,189,.08); }
+    .writeup-table tbody td { padding: .85rem 1rem; color: rgba(240,238,248,.7); font-weight: 300; line-height: 1.7; vertical-align: top; border-left: 1px solid var(--grey-dim); border-right: 1px solid var(--grey-dim); }
+    .writeup-table tbody td:first-child { color: var(--magenta); font-weight: 400; white-space: nowrap; width: 220px; }
+    .writeup-table a { color: var(--magenta); text-decoration: none; border-bottom: none; }
+    .writeup-table a:hover { color: var(--green-neon); text-shadow: var(--glow-green); }
+    .badge-img { display: block; max-width: 220px; margin: 1.5rem 0; border-radius: 4px; }
+    @media (max-width: 900px) { .writeup-layout { grid-template-columns: 1fr; padding: 2rem 1.25rem 4rem; } .toc { position: static; order: -1; } }
+    @media (max-width: 600px) {
+      .writeup-meta { gap: .4rem; }
+      .writeup-layout {
+        overflow-x: hidden;
+        padding: 1.5rem 1rem 3rem;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .writeup-main {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .writeup-section { margin-bottom: 2.5rem; }
+      .writeup-section h2 { font-size: 1rem; }
+      .writeup-section h3 { font-size: .82rem; }
+      .writeup-section p,
+      .writeup-section li {
+        font-size: .95rem;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      .code-block {
+        font-size: .75rem;
+        padding: .65rem .85rem;
+        overflow-x: auto;
+        white-space: pre;
+        word-break: normal;
+      }
+      .code-inline { font-size: .8rem; }
+      .image-container { margin: 1rem 0; }
+      .img-caption { font-size: .62rem; }
+      .writeup-table { display: block; overflow-x: auto; width: 100%; }
+      .writeup-table tbody td:first-child { white-space: normal; width: auto; }
+      .writeup-table tbody td { font-size: .82rem; padding: .6rem .75rem; }
+    }
+  
+    /* ── Talk page additions ── */
+    .talk-card { margin: 0 0 1.25rem; }
+    .talk-card .terminal-body { overflow-wrap: anywhere; }
+    .btn-secondary { background: transparent; color: var(--green-neon); border: 1px solid var(--green-neon); text-shadow: var(--glow-green); }
+    .btn-secondary:hover { background: rgba(77,250,84,.08); }
+    .talk-card .t-comment { line-height: 1.6; }
+    .talk-card .terminal-body { padding: 1.5rem 1.5rem 1.25rem; }
+    .talk-title-big { font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: .04em; line-height: 1.05; margin: .25rem 0 .75rem; }
+    .talk-title-big span { color: var(--magenta); text-shadow: var(--glow-magenta); }
+    .talk-sub { font-family: var(--font-body); font-size: 1rem; color: rgba(240,238,248,.75); font-weight: 300; line-height: 1.7; margin-bottom: 1.25rem; }
+    .talk-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+    .agenda-list { list-style: none; padding-left: 0 !important; }
+    .agenda-list li { display: grid; grid-template-columns: 4.5rem 1fr; gap: .75rem; padding: .6rem 0; border-bottom: 1px solid var(--grey-dim); }
+    .agenda-list .ag-tag { font-family: var(--font-mono); font-size: .72rem; color: var(--yellow-neon); text-shadow: var(--glow-yellow); letter-spacing: .08em; padding-top: .2rem; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+    .video-soon { border: 1px dashed var(--purple-vivid); border-radius: 4px; background: rgba(95,28,189,.08); padding: 2.5rem 1.5rem; text-align: center; }
+    .video-soon .vs-big { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--yellow-neon); text-shadow: var(--glow-yellow); letter-spacing: .15em; margin-bottom: .6rem; }
+    .video-soon .vs-small { font-family: var(--font-mono); font-size: .75rem; color: rgba(240,238,248,.45); letter-spacing: .12em; }
+    @media (max-width: 600px) {
+      .talk-card .terminal-body { padding: 1.1rem 1rem; }
+      .agenda-list li { grid-template-columns: 1fr; gap: .15rem; }
+      .talk-actions .btn { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-logo">SYS_<span>HRTBRKRNR</span>.exe</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#about">ABOUT</a></li>
+    <li><a href="../index.html#ctf">CTF</a></li>
+    <li><a href="../index.html#articles">ARTICLES</a></li>
+    <li><a href="../index.html#contact">CONTACT</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html#about"    onclick="closeMenu()">ABOUT</a>
+  <a href="../index.html#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
+  <a href="../index.html#articles" onclick="closeMenu()">ARTICLES</a>
+  <a href="../index.html#contact"  onclick="closeMenu()">CONTACT</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<div class="writeup-hero">
+  <div class="writeup-hero-content">
+    <a href="../index.html#articles" class="back-btn">← BACK TO ARTICLES &amp; RESEARCH</a>
+    <div class="writeup-meta">
+      <span class="meta-badge category">TALK</span>
+      <span class="meta-badge">BSIDES DELAWARE // 2026</span>
+    </div>
+    <h1 class="writeup-title">BSides Delaware <span>2026</span></h1>
+    <p class="writeup-tagline">// Third run at BSidesDE. This time, stepping into the spotlight.</p>
+  </div>
+</div>
+
+<!-- ═══ LAYOUT ═══ -->
+<div class="writeup-layout">
+
+  <div class="writeup-main">
+
+    <!-- TITLE CARD -->
+    <div class="writeup-section" id="title-card">
+      <h2>The Talk</h2>
+      <div class="terminal-block talk-card">
+        <div class="terminal-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="terminal-title">solving_for_y.run</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-prompt">❯ </span><span class="t-cmd">./solving_for_y.run</span></div>
+          <div><span class="t-comment">// INITIALIZING TALK . . . [ACCESS GRANTED]</span></div>
+          <div>&nbsp;</div>
+          <div class="talk-title-big">SOLVING <span>FOR Y</span></div>
+          <p class="talk-sub">The &ldquo;secret&rdquo; formula to opening doors, triggering curiosity, and tackling the challenges you find in cybersecurity.</p>
+          <div><span class="t-key">speaker</span>  <span class="t-val">: "HRTBRKRNR"</span></div>
+          <div><span class="t-key">role</span>     <span class="t-val">: "Cybersecurity Analyst // CTF Runner // Cyberpunk Enthusiast"</span></div>
+          <div><span class="t-key">event</span>    <span class="t-val">: "BSides Delaware // 2026"</span></div>
+          <div class="talk-actions">
+            <a href="../assets/art_res/2026.11/BSidesDE_SolvingForY_Final.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary">OPEN SLIDES (PDF)</a>
+            <a href="../assets/art_res/2026.11/BSidesDE_SolvingForY_Final.pdf" download class="btn btn-secondary">DOWNLOAD PDF</a>
+          </div>
+          <div class="t-comment" style="margin-top:.75rem;">// 29 slides. some phones download the PDF instead of opening it. check your downloads.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="writeup-section" id="summary">
+      <h2>Summary</h2>
+      <p>Cybersecurity is not an entry-level career, and there is no tutorial level or roadmap. This talk is about what to do when you are handed a challenge you do not understand yet: how you approach it matters more than what you already know.</p>
+      <p>The core idea is one formula that works in any domain: <span class="code-inline">Z = X + Y</span>. <strong>Z</strong> is the problem or alert in front of you, <strong>X</strong> is all the data you are collecting, and <strong>Y</strong> is what you are solving for, the logic that turns X into Z. The talk frames it through Security Operations, but swap the nouns and it runs for GRC, threat hunting, or plain troubleshooting.</p>
+
+      <h3>Agenda</h3>
+      <ul class="agenda-list">
+        <li><span class="ag-tag">[ 01 ]</span><span><strong>The Problem.</strong> Problems are like puzzles: a thousand pieces and no box art.</span></li>
+        <li><span class="ag-tag">[ 02 ]</span><span><strong>The Formula.</strong> Same shape, every domain: Z = X + Y.</span></li>
+        <li><span class="ag-tag">[ 03 ]</span><span><strong>The Gap.</strong> 90% of solving it is approach. 10% is what you already know.</span></li>
+        <li><span class="ag-tag">[ 04 ]</span><span><strong>The Approach.</strong> Night City was not built in a day, and neither is your understanding.</span></li>
+        <li><span class="ag-tag">[ 05 ]</span><span><strong>The Example.</strong> One real-style alert walked from start to finish.</span></li>
+      </ul>
+
+      <h3>Key Takeaways</h3>
+      <ul>
+        <li><strong>Approach beats memorization.</strong> You do not need to be a subject matter expert to start. You need curiosity, patience, and humility.</li>
+        <li><strong>AI is a tool, not the sole answer.</strong> Know the model, know how to prompt, and interrogate the sources instead of treating it as the source of truth.</li>
+        <li><strong>Byte-size it.</strong> Build foundations first and take one piece of the puzzle at a time.</li>
+        <li><strong>Ask why the alert exists.</strong> Not every event is a threat, and not every event deserves an alert. Detection logic matters when you understand why it matters.</li>
+      </ul>
+
+      <h3>Worked Example</h3>
+      <p>The talk closes with a fictional Cyberpunk-flavored scenario: an impossible-travel alert on an executive account, taken from the alert (Z), to the raw sign-in data (X), to the detection logic (Y), adapted from a Sigma rule and converted to SPL. It ends with a bonus data exfiltration finding and the lessons learned. All data in the scenario is simulated.</p>
+    </div>
+
+    <!-- SOCIALS -->
+    <div class="writeup-section" id="connect">
+      <h2>Let's Connect</h2>
+      <p>Come find me and let's talk! Questions about the talk, blue team life, or breaking into the field are always welcome.</p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/amber-kirylak-641a9332/" target="_blank" rel="noopener noreferrer" class="social-btn">&#128279; LINKEDIN</a>
+        <a href="https://tryhackme.com/p/HRTBRKRNR" target="_blank" rel="noopener noreferrer" class="social-btn">&#127919; TRYHACKME</a>
+        <a href="https://www.bsidesdelaware.com/" target="_blank" rel="noopener noreferrer" class="social-btn">&#128273; BSIDES DELAWARE</a>
+      </div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="writeup-section" id="video">
+      <h2>Talk Recording</h2>
+      <div class="video-soon">
+        <div class="vs-big">[ VIDEO // COMING SOON ]</div>
+        <div class="vs-small">&gt;_ TRANSMISSION PENDING. STAND BY, NETRUNNER.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <aside>
+    <div class="toc">
+      <div class="toc-title">// CONTENTS</div>
+      <ul>
+        <li><a href="#title-card">The Talk</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#connect">Let's Connect</a></li>
+        <li><a href="#video">Talk Recording</a></li>
+      </ul>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <span class="footer-copy" id="site-copyright"></span>
+  <span class="footer-tag">[ STAY CURIOUS // STAY SHARP // END TRANSMISSION ]</span>
+</footer>
+
+<script src="../main.js"></script>
+</body>
+</html>
