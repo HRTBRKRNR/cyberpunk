@@ -231,7 +231,7 @@ observeElements('.animate-in');
       }
 
     } else if (base === 'clear') {
-      body.innerHTML = '<div><span style="color: var(--yellow-neon); text-shadow: var(--glow-yellow);">// THIS IS AN INTERACTIVE TERMINAL</span></div><div><span style="color: var(--magenta); text-shadow: 0 0 8px var(--magenta);">// CTF WRITE-UP NAVIGATOR — TYPE \'help\' TO BEGIN</span></div><div>&nbsp;</div>';
+      body.innerHTML = '<div><span style="color: var(--yellow-neon); text-shadow: var(--glow-yellow);">// CTF WRITE-UP NAVIGATOR</span></div><div><span style="color: var(--magenta); text-shadow: 0 0 8px var(--magenta);">// TYPE \'help\' TO BEGIN</span></div><div>&nbsp;</div>';
 
     } else if (base === 'whoami') {
       print('<span class="ctf-cmd-output">hrtbrkrnr</span>');
