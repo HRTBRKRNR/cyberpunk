@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// D8. Shadow Commit :: CTF WRITE-UP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -72,17 +74,17 @@
     <li><a href="../index.html#articles">ARTICLES</a></li>
     <li><a href="../index.html#contact">CONTACT</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html#about"    onclick="closeMenu()">ABOUT</a>
-  <a href="../index.html#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
-  <a href="../index.html#articles" onclick="closeMenu()">ARTICLES</a>
-  <a href="../index.html#contact"  onclick="closeMenu()">CONTACT</a>
+  <a href="../index.html#about">ABOUT</a>
+  <a href="../index.html#ctf">CTF WRITE-UPS</a>
+  <a href="../index.html#articles">ARTICLES</a>
+  <a href="../index.html#contact">CONTACT</a>
 </div>
 
 <div class="writeup-hero">
@@ -120,8 +122,8 @@
 
       <h3>Additional Resources</h3>
       <ul>
-        <li><a href="https://docs.github.com/en" target="_blank">git docs</a></li>
-        <li><a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a></li>
+        <li><a href="https://docs.github.com/en" target="_blank" rel="noopener noreferrer">git docs</a></li>
+        <li><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef</a></li>
       </ul>
     </div>
 
@@ -210,7 +212,7 @@
         <p class="img-caption">fileman.py — suspicious Base64-encoded string discovered &nbsp;|&nbsp; Click to enlarge</p>
       </div>
 
-      <p>Very suspicious — something is encoded in Base64. Open <a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a> and use <b>From Base64</b>:</p>
+      <p>Very suspicious — something is encoded in Base64. Open <a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef</a> and use <b>From Base64</b>:</p>
 
       <div class="image-container">
         <a href="assets/D8_10.png"><img src="assets/D8_10.png" alt="CyberChef From Base64 first layer"></a>
@@ -229,9 +231,9 @@
       <h2>MITRE ATT&amp;CK</h2>
       <p>In this challenge, we inspected and restored the files for the git directory and discovered the changes made to the repository.</p>
       <h3>Tactics</h3>
-      <p>This tactic falls under <a href="https://attack.mitre.org/tactics/TA0042/" target="_blank">TA0042 — Resource Development</a> and <a href="https://attack.mitre.org/tactics/TA0005/" target="_blank">TA0005 — Defense Evasion</a>, as Shadow Gopher leveraged a public GitHub repository to modify source code to obtain capabilities for execution and evade Personalyz.io's defenses.</p>
+      <p>This tactic falls under <a href="https://attack.mitre.org/tactics/TA0042/" target="_blank" rel="noopener noreferrer">TA0042 — Resource Development</a> and <a href="https://attack.mitre.org/tactics/TA0005/" target="_blank" rel="noopener noreferrer">TA0005 — Defense Evasion</a>, as Shadow Gopher leveraged a public GitHub repository to modify source code to obtain capabilities for execution and evade Personalyz.io's defenses.</p>
       <h3>Techniques</h3>
-      <p>This technique falls under <a href="https://attack.mitre.org/techniques/T1588/" target="_blank">T1588 — Obtain Capabilities</a> and <a href="https://attack.mitre.org/techniques/T1027/" target="_blank">T1027 — Obfuscated Files or Information</a> as Shadow Gopher modified existing source code in a public repository and used Base64 to obfuscate the malicious commit.</p>
+      <p>This technique falls under <a href="https://attack.mitre.org/techniques/T1588/" target="_blank" rel="noopener noreferrer">T1588 — Obtain Capabilities</a> and <a href="https://attack.mitre.org/techniques/T1027/" target="_blank" rel="noopener noreferrer">T1027 — Obfuscated Files or Information</a> as Shadow Gopher modified existing source code in a public repository and used Base64 to obfuscate the malicious commit.</p>
       <h3>Procedures</h3>
       <p>Shadow Gopher modified a public GitHub repository by adding obfuscated source code encoded in Base64 to obtain the capabilities to use the code for persistence and exfiltration.</p>
     </div>
@@ -242,7 +244,7 @@
       <table class="writeup-table">
         <thead><tr><td>Mitigation</td><td>Description</td></tr></thead>
         <tbody>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1056/" target="_blank">M1056 — Pre-Compromise</a></td><td>This technique cannot be easily mitigated with preventative controls as the repository belonged to a user outside of the Personalyz.io organization.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1056/" target="_blank" rel="noopener noreferrer">M1056 — Pre-Compromise</a></td><td>This technique cannot be easily mitigated with preventative controls as the repository belonged to a user outside of the Personalyz.io organization.</td></tr>
         </tbody>
       </table>
     </div>
@@ -253,7 +255,7 @@
       <table class="writeup-table">
         <thead><tr><td>Data Source</td><td>Description</td></tr></thead>
         <tbody>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1019/" target="_blank">M1019 — Threat Intelligence Program</a></td><td>Proactively identifying and analyzing cyber threats by leveraging internal and external data sources. Leveraging frameworks like MITRE ATT&amp;CK to map intelligence to adversary TTPs.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1019/" target="_blank" rel="noopener noreferrer">M1019 — Threat Intelligence Program</a></td><td>Proactively identifying and analyzing cyber threats by leveraging internal and external data sources. Leveraging frameworks like MITRE ATT&amp;CK to map intelligence to adversary TTPs.</td></tr>
         </tbody>
       </table>
     </div>

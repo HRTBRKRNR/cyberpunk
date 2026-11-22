@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// JACK_IN :: WIRE_TRIP</title>
 
   <!-- Google Fonts -->
@@ -23,17 +25,17 @@
     <li><a href="#articles">ARTICLES</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about"    onclick="closeMenu()">ABOUT</a>
-  <a href="#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
-  <a href="#articles" onclick="closeMenu()">ARTICLES</a>
-  <a href="#contact"  onclick="closeMenu()">CONTACT</a>
+  <a href="#about">ABOUT</a>
+  <a href="#ctf">CTF WRITE-UPS</a>
+  <a href="#articles">ARTICLES</a>
+  <a href="#contact">CONTACT</a>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
@@ -213,7 +215,7 @@
           <div><span style="color: var(--magenta); text-shadow: var(--glow-magenta);">// ACTION REQUIRED: type passphrase to unlock access</span></div>
           <div><span class="t-comment">// HINT: initiate the protocol, netrunner.</span></div>
           <div>&nbsp;</div>
-          <form id="loreForm" onsubmit="return false;" style="display:contents;">
+          <form id="loreForm" style="display:contents;">
             <div class="terminal-input-row">
               <span class="t-prompt">❯&nbsp;</span>
               <input type="text" id="loreInput" class="terminal-input" placeholder="type here..." autocomplete="off" spellcheck="false" style="caret-color: var(--green-neon);" enterkeyhint="go">
@@ -253,7 +255,7 @@
           <div><span style="color: var(--magenta); text-shadow: var(--glow-magenta);">// TYPE 'help' TO BEGIN</span></div>
           <div>&nbsp;</div>
         </div>
-        <form id="ctfForm" onsubmit="return false;" style="display:contents;">
+        <form id="ctfForm" style="display:contents;">
         <div class="terminal-input-row" style="padding: .5rem 1rem .85rem;">
           <span class="t-prompt">❯&nbsp;</span>
           <input type="text" id="ctfInput" class="terminal-input" placeholder="type here..." autocomplete="off" spellcheck="false" style="caret-color: var(--green-neon);" enterkeyhint="go">

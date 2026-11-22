@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// D10. Backup Break-in :: CTF WRITE-UP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -72,17 +74,17 @@
     <li><a href="../index.html#articles">ARTICLES</a></li>
     <li><a href="../index.html#contact">CONTACT</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html#about"    onclick="closeMenu()">ABOUT</a>
-  <a href="../index.html#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
-  <a href="../index.html#articles" onclick="closeMenu()">ARTICLES</a>
-  <a href="../index.html#contact"  onclick="closeMenu()">CONTACT</a>
+  <a href="../index.html#about">ABOUT</a>
+  <a href="../index.html#ctf">CTF WRITE-UPS</a>
+  <a href="../index.html#articles">ARTICLES</a>
+  <a href="../index.html#contact">CONTACT</a>
 </div>
 
 <div class="writeup-hero">
@@ -223,9 +225,9 @@
       <h2>MITRE ATT&amp;CK</h2>
       <p>In this challenge, we identified how the user's credentials were compromised.</p>
       <h3>Tactics</h3>
-      <p>This tactic falls under <a href="https://attack.mitre.org/tactics/TA0006/" target="_blank">TA0006 — Credential Access</a> as Shadow Gopher leveraged a compromised user's account to make an unauthorized change to the source code in the GitHub repository.</p>
+      <p>This tactic falls under <a href="https://attack.mitre.org/tactics/TA0006/" target="_blank" rel="noopener noreferrer">TA0006 — Credential Access</a> as Shadow Gopher leveraged a compromised user's account to make an unauthorized change to the source code in the GitHub repository.</p>
       <h3>Techniques</h3>
-      <p>This technique falls under <a href="https://attack.mitre.org/techniques/T1552/001/" target="_blank">T1552.001 — Unsecured Credentials: Credentials in Files</a> and <a href="https://attack.mitre.org/techniques/T1552/008/" target="_blank">T1552.008 — Unsecured Credentials: Chat Messages</a> as Shadow Gopher found credentials stored in the SecureVault's source code that allowed downloading slack archives containing plaintext credentials.</p>
+      <p>This technique falls under <a href="https://attack.mitre.org/techniques/T1552/001/" target="_blank" rel="noopener noreferrer">T1552.001 — Unsecured Credentials: Credentials in Files</a> and <a href="https://attack.mitre.org/techniques/T1552/008/" target="_blank" rel="noopener noreferrer">T1552.008 — Unsecured Credentials: Chat Messages</a> as Shadow Gopher found credentials stored in the SecureVault's source code that allowed downloading slack archives containing plaintext credentials.</p>
       <h3>Procedures</h3>
       <p>Shadow Gopher accessed SecureVault using unsecured credentials found in the source code to download a backup file containing Slack channel archives with chat messages that contained plaintext credentials.</p>
     </div>
@@ -235,10 +237,10 @@
       <table class="writeup-table">
         <thead><tr><td>Mitigation</td><td>Description</td></tr></thead>
         <tbody>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1047/" target="_blank">M1047 — Audit</a></td><td>Search for files containing passwords and take action to reduce the risk of exposure when found.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1027/" target="_blank">M1027 — Password Policies</a></td><td>Establish policies that prohibit passwords being stored in files. Leverage tools such as password managers that allow for secure storage and secure sharing where appropriate.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1018/" target="_blank">M1018 — User Account Management</a></td><td>Accounts should be tied to a specific user. If a service account is used, a PAM solution should be implemented to identify who and when the user accessed an application.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1017/" target="_blank">M1017 — User Training</a></td><td>Ensure users are not sharing credentials to critical and non-critical systems.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1047/" target="_blank" rel="noopener noreferrer">M1047 — Audit</a></td><td>Search for files containing passwords and take action to reduce the risk of exposure when found.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1027/" target="_blank" rel="noopener noreferrer">M1027 — Password Policies</a></td><td>Establish policies that prohibit passwords being stored in files. Leverage tools such as password managers that allow for secure storage and secure sharing where appropriate.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1018/" target="_blank" rel="noopener noreferrer">M1018 — User Account Management</a></td><td>Accounts should be tied to a specific user. If a service account is used, a PAM solution should be implemented to identify who and when the user accessed an application.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1017/" target="_blank" rel="noopener noreferrer">M1017 — User Training</a></td><td>Ensure users are not sharing credentials to critical and non-critical systems.</td></tr>
         </tbody>
       </table>
     </div>
@@ -248,7 +250,7 @@
       <table class="writeup-table">
         <thead><tr><td>Data Source</td><td>Description</td></tr></thead>
         <tbody>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0015/#Application%20Log%20Content" target="_blank">DS0015 — Application Log</a></td><td>Monitor applications for user logins, configuration changes or access to sensitive resources.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0015/#Application%20Log%20Content" target="_blank" rel="noopener noreferrer">DS0015 — Application Log</a></td><td>Monitor applications for user logins, configuration changes or access to sensitive resources.</td></tr>
         </tbody>
       </table>
     </div>

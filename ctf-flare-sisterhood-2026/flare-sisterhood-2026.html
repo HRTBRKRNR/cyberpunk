@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// Sisterhood of the Traveling Packets 2026 :: CTF WRITE-UP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -102,16 +104,16 @@
     <li><a href="../index.html#articles">ARTICLES</a></li>
     <li><a href="../index.html#contact">CONTACT</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html#about"    onclick="closeMenu()">ABOUT</a>
-  <a href="../index.html#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
-  <a href="../index.html#articles" onclick="closeMenu()">ARTICLES</a>
-  <a href="../index.html#contact"  onclick="closeMenu()">CONTACT</a>
+  <a href="../index.html#about">ABOUT</a>
+  <a href="../index.html#ctf">CTF WRITE-UPS</a>
+  <a href="../index.html#articles">ARTICLES</a>
+  <a href="../index.html#contact">CONTACT</a>
 </div>
 
 <!-- ═══ HERO ═══ -->
@@ -146,14 +148,14 @@
     <!-- OBJECTIVE -->
     <div class="writeup-section" id="objective">
       <h2>Objective</h2>
-      <p>Once the flag is found for this challenge, it is technically a coupon code for the <a href="http://merch.flare.io" target="_blank">merch.flare.io</a> store. The flag format was unknown going in — figuring that out was part of the challenge.</p>
+      <p>Once the flag is found for this challenge, it is technically a coupon code for the <a href="https://merch.flare.io" target="_blank" rel="noopener noreferrer">merch.flare.io</a> store. The flag format was unknown going in — figuring that out was part of the challenge.</p>
     </div>
 
     <!-- SOLUTION -->
     <div class="writeup-section" id="solution">
       <h2>Solution</h2>
       <p>The challenge is 100% browser based. No command prompt, no Python tools — just the Tor Browser, CyberChef, and critical thinking. To prepare, I had to crack open my x86 microcomputer to install the Tor browser.</p>
-      <p><strong>I highly recommend that, if you do not know how to use Tor, you go to the <a href="https://support.torproject.org/tor-browser/getting-started/installing" target="_blank">Tor Project's Getting Started guide</a> and read the Getting Started section before proceeding.</strong></p>
+      <p><strong>I highly recommend that, if you do not know how to use Tor, you go to the <a href="https://support.torproject.org/tor-browser/getting-started/installing" target="_blank" rel="noopener noreferrer">Tor Project's Getting Started guide</a> and read the Getting Started section before proceeding.</strong></p>
       <p>I am a firm believer in reading documentation before installing or using any tools you are unfamiliar with. I also highly recommend using a virtual machine for any CTF — it is best practice not to install tools natively on your primary machine unless you are using a dedicated throwaway device or fully accept the associated risks.</p>
 
       <h3>Accessing the .onion Link</h3>
@@ -196,7 +198,7 @@
       </div>
 
       <h3>robots.txt</h3>
-      <p>Whenever you perform reconnaissance on a website, always check <code class="code-inline">/robots.txt</code>. This file sits in the root directory and tells bots and web crawlers what paths are allowed or disallowed — making it a perfect place to discover endpoints not indexed in search engines. <a href="https://www.cloudflare.com/learning/bots/what-is-robots-txt/" target="_blank">Learn more here.</a></p>
+      <p>Whenever you perform reconnaissance on a website, always check <code class="code-inline">/robots.txt</code>. This file sits in the root directory and tells bots and web crawlers what paths are allowed or disallowed — making it a perfect place to discover endpoints not indexed in search engines. <a href="https://www.cloudflare.com/learning/bots/what-is-robots-txt/" target="_blank" rel="noopener noreferrer">Learn more here.</a></p>
       <div class="image-container">
         <a href="assets/flare_08.png"><img src="assets/flare_08.png" alt="/robots.txt"></a>
         <p class="img-caption">/robots.txt — 2 disallowed endpoints found &nbsp;|&nbsp; Click to enlarge</p>
@@ -215,11 +217,11 @@
       </div>
       <p>The error message <strong>"Missing required parameter: action"</strong> is a huge clue. It tells us exactly what parameter we need and hands us a list of <strong>valid_actions</strong>. If you are not familiar with how URL parameters work, these resources are worth reading before going further:</p>
       <ul>
-        <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_URL" target="_blank">Mozilla: What is a URL?</a></li>
-        <li><a href="https://www.rfc-editor.org/info/rfc3986" target="_blank">RFC 3986</a></li>
-        <li><a href="https://owasp.org/www-community/attacks/Forced_browsing" target="_blank">OWASP: Forced Browsing</a></li>
-        <li><a href="https://owasp.org/www-community/vulnerabilities/Information_exposure_through_query_strings_in_url" target="_blank">OWASP: Information Exposure Through Query Strings in URL</a></li>
-        <li><a href="https://owasp.org/www-community/attacks/insecure_direct_object_reference" target="_blank">OWASP: Insecure Direct Object Reference (IDOR)</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_URL" target="_blank" rel="noopener noreferrer">Mozilla: What is a URL?</a></li>
+        <li><a href="https://www.rfc-editor.org/info/rfc3986" target="_blank" rel="noopener noreferrer">RFC 3986</a></li>
+        <li><a href="https://owasp.org/www-community/attacks/Forced_browsing" target="_blank" rel="noopener noreferrer">OWASP: Forced Browsing</a></li>
+        <li><a href="https://owasp.org/www-community/vulnerabilities/Information_exposure_through_query_strings_in_url" target="_blank" rel="noopener noreferrer">OWASP: Information Exposure Through Query Strings in URL</a></li>
+        <li><a href="https://owasp.org/www-community/attacks/insecure_direct_object_reference" target="_blank" rel="noopener noreferrer">OWASP: Insecure Direct Object Reference (IDOR)</a></li>
       </ul>
 
       <h3>Enumerating the API Actions</h3>
@@ -274,7 +276,7 @@
         <a href="assets/flare_19.png"><img src="assets/flare_19.png" alt="conversation_id=2 — Base64 string found"></a>
         <p class="img-caption">/api.php?action=messages&conversation_id=2 — Base64 string discovered &nbsp;|&nbsp; Click to enlarge</p>
       </div>
-      <p>A Base64 string. Using <a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a> to decode it gives us a password we can use to log into the admin panel with one of the identified crew usernames.</p>
+      <p>A Base64 string. Using <a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef</a> to decode it gives us a password we can use to log into the admin panel with one of the identified crew usernames.</p>
 
       <h3>Decoding & The Flag</h3>
       <div class="image-container">
@@ -285,7 +287,7 @@
         <a href="assets/flare_21.png"><img src="assets/flare_21.png" alt="Flag found"></a>
         <p class="img-caption">Flag found — right there in rainbow colors as a decryption key &nbsp;|&nbsp; Click to enlarge</p>
       </div>
-      <p>And there it was — right there in the dashboard, the <strong>flag as one of the decryption keys</strong>. The dashboard also revealed Activity Log and Infrastructure widgets. The flag worked as a coupon code on <a href="http://merch.flare.io" target="_blank">merch.flare.io</a> to redeem <strong>The Sisterhood of the Traveling Packets T-Shirt</strong>.</p>
+      <p>And there it was — right there in the dashboard, the <strong>flag as one of the decryption keys</strong>. The dashboard also revealed Activity Log and Infrastructure widgets. The flag worked as a coupon code on <a href="https://merch.flare.io" target="_blank" rel="noopener noreferrer">merch.flare.io</a> to redeem <strong>The Sisterhood of the Traveling Packets T-Shirt</strong>.</p>
     </div>
 
     <!-- AUXILIARY DATA -->
@@ -311,7 +313,7 @@
     <div class="writeup-section" id="lessons">
       <h2>Net Lessons</h2>
       <ul>
-        <li><strong>Base64 encoding should never substitute for secure password handling.</strong> This also applies to hashes. Sites like <a href="https://crackstation.net/" target="_blank">CrackStation</a> and tools like hashcat or John the Ripper are notorious for cracking hashes from known leaked wordlists.</li>
+        <li><strong>Base64 encoding should never substitute for secure password handling.</strong> This also applies to hashes. Sites like <a href="https://crackstation.net/" target="_blank" rel="noopener noreferrer">CrackStation</a> and tools like hashcat or John the Ripper are notorious for cracking hashes from known leaked wordlists.</li>
         <li><strong>Authorization and access control must be enforced on API endpoints.</strong> Functions and endpoints should be inaccessible to unauthenticated users — full stop.</li>
         <li><strong>IDOR vulnerability mitigation:</strong> parameters that reference sensitive objects should require authorization. Exposing <code class="code-inline">conversation_id</code> without access control is a textbook IDOR finding.</li>
       </ul>
@@ -330,13 +332,13 @@
         <tbody>
           <tr>
             <td>
-              <a href="https://attack.mitre.org/techniques/T1595/" target="_blank">T1595 — Active Scanning</a><br>
-              <a href="https://attack.mitre.org/techniques/T1190/" target="_blank">T1190 — Exploit Public-Facing Application</a>
+              <a href="https://attack.mitre.org/techniques/T1595/" target="_blank" rel="noopener noreferrer">T1595 — Active Scanning</a><br>
+              <a href="https://attack.mitre.org/techniques/T1190/" target="_blank" rel="noopener noreferrer">T1190 — Exploit Public-Facing Application</a>
             </td>
             <td>While no active scanning tools were used, we force browsed the website — revealing hidden endpoints and URI paths susceptible to IDOR.</td>
           </tr>
           <tr>
-            <td><a href="https://attack.mitre.org/techniques/T1552/008/" target="_blank">T1552.008 — Unsecured Credentials: Chat Messages</a></td>
+            <td><a href="https://attack.mitre.org/techniques/T1552/008/" target="_blank" rel="noopener noreferrer">T1552.008 — Unsecured Credentials: Chat Messages</a></td>
             <td>A Base64 encoded string contained a plaintext password stored in an unsecured chat log — exposed through the unauthenticated messages API endpoint.</td>
           </tr>
         </tbody>
@@ -347,8 +349,8 @@
     <div class="writeup-section" id="tools">
       <h2>Tools Used</h2>
       <ul>
-        <li><a href="https://support.torproject.org/tor-browser/getting-started/installing/" target="_blank">Tor Browser</a></li>
-        <li><a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a></li>
+        <li><a href="https://support.torproject.org/tor-browser/getting-started/installing/" target="_blank" rel="noopener noreferrer">Tor Browser</a></li>
+        <li><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef</a></li>
       </ul>
     </div>
 

@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// D5. Ahoy, PCAP'n!s :: CTF WRITE-UP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -77,17 +79,17 @@
     <li><a href="../index.html#articles">ARTICLES</a></li>
     <li><a href="../index.html#contact">CONTACT</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html#about"    onclick="closeMenu()">ABOUT</a>
-  <a href="../index.html#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
-  <a href="../index.html#articles" onclick="closeMenu()">ARTICLES</a>
-  <a href="../index.html#contact"  onclick="closeMenu()">CONTACT</a>
+  <a href="../index.html#about">ABOUT</a>
+  <a href="../index.html#ctf">CTF WRITE-UPS</a>
+  <a href="../index.html#articles">ARTICLES</a>
+  <a href="../index.html#contact">CONTACT</a>
 </div>
 
 <div class="writeup-hero">
@@ -146,14 +148,14 @@
       <h3>Required Tools</h3>
       <ul>
         <li>Wireshark packet analysis tool or a similar packet analysis tool. Wireshark is recommended, free, available for Windows, macOS and Linux, and the hints will be based on it.</li>
-        <li><a href="https://www.wireshark.org/docs/" target="_blank">Documentation and tutorials for reference.</a></li>
+        <li><a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener noreferrer">Documentation and tutorials for reference.</a></li>
       </ul>
 
       <h3>Additional Resources</h3>
       <p>Ports and protocols in common use:</p>
       <ul>
-        <li><a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers" target="_blank">Wikipedia — List of TCP and UDP port numbers</a></li>
-        <li><a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml" target="_blank">IANA — Service Name and Port Number Registry</a>
+        <li><a href="https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers" target="_blank" rel="noopener noreferrer">Wikipedia — List of TCP and UDP port numbers</a></li>
+        <li><a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml" target="_blank" rel="noopener noreferrer">IANA — Service Name and Port Number Registry</a>
           <ul>
             <li>More detailed if you want it, but less user-friendly and not necessary for the challenge; Wikipedia is sufficient.</li>
             <li>Note: IANA is the official source for port numbers, but Wikipedia is often easier to read and understand.</li>
@@ -162,8 +164,8 @@
         </li>
         <li>Network protocols overview:
           <ul>
-            <li><a href="https://en.wikipedia.org/wiki/Communication_protocol" target="_blank">Wikipedia — Communication protocol</a> — there's a ton of info here, for further reading if you want it</li>
-            <li><a href="https://www.iana.org/protocols" target="_blank">IANA — Protocol Registries</a> — more detailed if you want it, but not necessary for the challenge; Wikipedia is sufficient</li>
+            <li><a href="https://en.wikipedia.org/wiki/Communication_protocol" target="_blank" rel="noopener noreferrer">Wikipedia — Communication protocol</a> — there's a ton of info here, for further reading if you want it</li>
+            <li><a href="https://www.iana.org/protocols" target="_blank" rel="noopener noreferrer">IANA — Protocol Registries</a> — more detailed if you want it, but not necessary for the challenge; Wikipedia is sufficient</li>
           </ul>
         </li>
       </ul>
@@ -221,7 +223,7 @@
         <li>One of the protocols noted above was used to exfiltrate the data.</li>
       </ul>
 
-      <p>There is a technique adversaries use to exfiltrate data over a C2 channel. In the <a href="https://attack.mitre.org/techniques/T1041/" target="_blank">MITRE ATT&amp;CK Framework</a>, this is a publicly known exfiltration technique where adversaries can use uncommon protocols to send data out of Personalyz.io. When reviewing the list of protocols available in the packet capture, the one that stands out the most is <strong>DNS</strong>.</p>
+      <p>There is a technique adversaries use to exfiltrate data over a C2 channel. In the <a href="https://attack.mitre.org/techniques/T1041/" target="_blank" rel="noopener noreferrer">MITRE ATT&amp;CK Framework</a>, this is a publicly known exfiltration technique where adversaries can use uncommon protocols to send data out of Personalyz.io. When reviewing the list of protocols available in the packet capture, the one that stands out the most is <strong>DNS</strong>.</p>
       <p>We know DNS is a UDP protocol that is typically on port 53. Let's take a look in the UDP section of the Endpoints module.</p>
       <a href="assets/D5_06.png"><img src="assets/D5_06.png" alt="Wireshark Endpoints module showing UDP traffic on port 53" class="screenshot"></a>
       <p class="screenshot-caption">// Click image to enlarge — UDP Endpoints filtered by port number</p>
@@ -254,9 +256,9 @@
       <h2>MITRE ATT&amp;CK</h2>
       <p>In this challenge, we inspected Personalyz.io network traffic using Wireshark to identify the compromised service sending DNS queries to an external public IP address belonging to Shadow Gopher.</p>
       <h3>Tactics</h3>
-      <p>In the MITRE ATT&amp;CK framework, this tactic falls under <a href="https://attack.mitre.org/tactics/TA0011/" target="_blank">Command and Control (TA0011)</a> — a compromised machine on the Personalyz network is communicating to an external endpoint owned by Shadow Gopher.</p>
+      <p>In the MITRE ATT&amp;CK framework, this tactic falls under <a href="https://attack.mitre.org/tactics/TA0011/" target="_blank" rel="noopener noreferrer">Command and Control (TA0011)</a> — a compromised machine on the Personalyz network is communicating to an external endpoint owned by Shadow Gopher.</p>
       <h3>Techniques</h3>
-      <p>In the MITRE ATT&amp;CK framework, this technique falls under <a href="https://attack.mitre.org/techniques/T1071/004/" target="_blank">Application Layer Protocol: DNS (T1071.004)</a> — the protocol used for communication between the compromised Personalyz machine and a Shadow Gopher server is DNS on port 53.</p>
+      <p>In the MITRE ATT&amp;CK framework, this technique falls under <a href="https://attack.mitre.org/techniques/T1071/004/" target="_blank" rel="noopener noreferrer">Application Layer Protocol: DNS (T1071.004)</a> — the protocol used for communication between the compromised Personalyz machine and a Shadow Gopher server is DNS on port 53.</p>
       <h3>Procedures</h3>
       <p>A compromised machine on the Personalyz network sending DNS requests on port 53 to an external endpoint owned by Shadow Gopher, establishing Command and Control (C2) communication to facilitate data exfiltration.</p>
     </div>
@@ -273,11 +275,11 @@
         </thead>
         <tbody>
           <tr>
-            <td><a href="https://attack.mitre.org/mitigations/M1037/" target="_blank">M1037 — Filter Network Traffic</a></td>
+            <td><a href="https://attack.mitre.org/mitigations/M1037/" target="_blank" rel="noopener noreferrer">M1037 — Filter Network Traffic</a></td>
             <td>Utilize network appliances and endpoint software to filter ingress, egress, and lateral network traffic. Other mitigations to implement include protocol-based filtering, network segmentation, and application layer filtering to block anomalous DNS traffic to unknown resolvers.</td>
           </tr>
           <tr>
-            <td><a href="https://attack.mitre.org/mitigations/M1031/" target="_blank">M1031 — Network Intrusion Prevention</a></td>
+            <td><a href="https://attack.mitre.org/mitigations/M1031/" target="_blank" rel="noopener noreferrer">M1031 — Network Intrusion Prevention</a></td>
             <td>Use Intrusion Detection System (IDS) signatures to block traffic at network boundaries.</td>
           </tr>
         </tbody>
@@ -296,11 +298,11 @@
         </thead>
         <tbody>
           <tr>
-            <td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Content" target="_blank">DS0029 — Network Traffic Content</a></td>
+            <td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Content" target="_blank" rel="noopener noreferrer">DS0029 — Network Traffic Content</a></td>
             <td>Network Packet Captures (Wireshark, Zeek, Suricata/Snort with PCAP logging), host-based logging, and cloud/SaaS traffic collection to inspect C2 traffic, exfiltration, and suspicious activity within network communications.</td>
           </tr>
           <tr>
-            <td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Flow" target="_blank">DS0029 — Network Traffic Flow</a></td>
+            <td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Flow" target="_blank" rel="noopener noreferrer">DS0029 — Network Traffic Flow</a></td>
             <td>Network flow logs (NetFlow, sFlow, Zeek/Bro flow logs), host-based logging, and cloud/SaaS flow monitoring for capturing session-level details including source/destination IPs, ports, protocols, timestamps, and data volume to identify anomalous outbound DNS patterns.</td>
           </tr>
         </tbody>

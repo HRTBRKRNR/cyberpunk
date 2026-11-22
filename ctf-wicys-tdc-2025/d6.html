@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// D6. Smuggled Away! :: CTF WRITE-UP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -73,17 +75,17 @@
     <li><a href="../index.html#articles">ARTICLES</a></li>
     <li><a href="../index.html#contact">CONTACT</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="../index.html#about"    onclick="closeMenu()">ABOUT</a>
-  <a href="../index.html#ctf"      onclick="closeMenu()">CTF WRITE-UPS</a>
-  <a href="../index.html#articles" onclick="closeMenu()">ARTICLES</a>
-  <a href="../index.html#contact"  onclick="closeMenu()">CONTACT</a>
+  <a href="../index.html#about">ABOUT</a>
+  <a href="../index.html#ctf">CTF WRITE-UPS</a>
+  <a href="../index.html#articles">ARTICLES</a>
+  <a href="../index.html#contact">CONTACT</a>
 </div>
 
 <div class="writeup-hero">
@@ -126,17 +128,17 @@
       <ul>
         <li>PCAP file from the previous challenge (D5)</li>
         <li>Wireshark or other packet analysis tool</li>
-        <li><a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a> or some coding language to decode the data</li>
+        <li><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef</a> or some coding language to decode the data</li>
       </ul>
 
       <h3>Additional Resources</h3>
       <ul>
-        <li><a href="https://www.wireshark.org/" target="_blank">Wireshark packet analysis tool</a>
-          <ul><li><a href="https://www.wireshark.org/docs/" target="_blank">Documentation and tutorials</a></li></ul>
+        <li><a href="https://www.wireshark.org/" target="_blank" rel="noopener noreferrer">Wireshark packet analysis tool</a>
+          <ul><li><a href="https://www.wireshark.org/docs/" target="_blank" rel="noopener noreferrer">Documentation and tutorials</a></li></ul>
         </li>
-        <li><a href="https://tshark.dev/analyze/" target="_blank">tshark usage</a></li>
-        <li><a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef en-/de-coder, slicer, dicer, multitool</a></li>
-        <li><a href="https://en.wikipedia.org/wiki/Category:Binary-to-text_encoding_formats" target="_blank">Encoding formats</a></li>
+        <li><a href="https://tshark.dev/analyze/" target="_blank" rel="noopener noreferrer">tshark usage</a></li>
+        <li><a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef en-/de-coder, slicer, dicer, multitool</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Category:Binary-to-text_encoding_formats" target="_blank" rel="noopener noreferrer">Encoding formats</a></li>
       </ul>
     </div>
 
@@ -155,7 +157,7 @@
       </div>
 
       <p>Observing the <b>Info</b> column of the 33 filtered packets, we can see queries going outbound using different DNS record types to a variety of websites. However, it is odd that all domain names are prefixed with random characters!</p>
-      <p>Per the <a href="https://attack.mitre.org/techniques/T1071/004/" target="_blank">MITRE ATT&amp;CK Framework</a>, this is an Application Layer Protocol technique used to exfiltrate data via C2. Looking at the adversary group <a href="https://attack.mitre.org/groups/G0050/" target="_blank">APT32: Ocean Lotus</a>, one known procedure is: <b>APT32's backdoor can exfiltrate data by encoding it in the subdomain field of DNS packets</b>.</p>
+      <p>Per the <a href="https://attack.mitre.org/techniques/T1071/004/" target="_blank" rel="noopener noreferrer">MITRE ATT&amp;CK Framework</a>, this is an Application Layer Protocol technique used to exfiltrate data via C2. Looking at the adversary group <a href="https://attack.mitre.org/groups/G0050/" target="_blank" rel="noopener noreferrer">APT32: Ocean Lotus</a>, one known procedure is: <b>APT32's backdoor can exfiltrate data by encoding it in the subdomain field of DNS packets</b>.</p>
       <p>This is a huge clue. Let's isolate the prefixes of the domain names.</p>
       <p>In the top menu select <b>File → Export Selected Packets</b>. Name your new file and save it as a <b>.pcap</b>. Then open a terminal and change to the folder where you saved the packets:</p>
       <div class="code-block">cd Downloads/D5</div>
@@ -217,7 +219,7 @@
         <p class="img-caption">domains2.txt — all DNS prefixes concatenated on one line &nbsp;|&nbsp; Click to enlarge</p>
       </div>
 
-      <p>Now pivot to <a href="https://gchq.github.io/CyberChef/" target="_blank">CyberChef</a>. Open the file or paste the prefix string into the input pane. From the <b>Operations</b> list, drag and drop <b>From Base32</b> into the recipe.</p>
+      <p>Now pivot to <a href="https://gchq.github.io/CyberChef/" target="_blank" rel="noopener noreferrer">CyberChef</a>. Open the file or paste the prefix string into the input pane. From the <b>Operations</b> list, drag and drop <b>From Base32</b> into the recipe.</p>
       <p>Why Base32? Base32 is URL-safe and uses only letters and digits when encoding.</p>
 
       <div class="image-container">
@@ -244,9 +246,9 @@
       <h2>MITRE ATT&amp;CK</h2>
       <p>In this challenge, we inspected the compromised DNS traffic between Personalyz.io and Shadow Gopher and discovered data was exfiltrated using prefixed domain requests.</p>
       <h3>Tactics</h3>
-      <p>This tactic falls under <a href="https://attack.mitre.org/tactics/TA0010/" target="_blank">TA0010 — Exfiltration</a> as data is being egressed from the Personalyz.io organization to Shadow Gopher using prefixed DNS queries containing the data.</p>
+      <p>This tactic falls under <a href="https://attack.mitre.org/tactics/TA0010/" target="_blank" rel="noopener noreferrer">TA0010 — Exfiltration</a> as data is being egressed from the Personalyz.io organization to Shadow Gopher using prefixed DNS queries containing the data.</p>
       <h3>Techniques</h3>
-      <p>This technique falls under <a href="https://attack.mitre.org/techniques/T1048/" target="_blank">T1048 — Exfiltration Over Alternative Protocol</a> as the protocol used for exfiltration is DNS port 53.</p>
+      <p>This technique falls under <a href="https://attack.mitre.org/techniques/T1048/" target="_blank" rel="noopener noreferrer">T1048 — Exfiltration Over Alternative Protocol</a> as the protocol used for exfiltration is DNS port 53.</p>
       <h3>Procedures</h3>
       <p>The compromised machine on the Personalyz network sends company PII using prefixed DNS requests on port 53 to an external endpoint owned by Shadow Gopher via Command and Control (C2).</p>
     </div>
@@ -257,12 +259,12 @@
       <table class="writeup-table">
         <thead><tr><td>Mitigation</td><td>Description</td></tr></thead>
         <tbody>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1057/" target="_blank">M1057 — Data Loss Prevention</a></td><td>Implementing strategies and technologies to identify, categorize, monitor and control the movement of sensitive data within an organization including: categorization, exfiltration restrictions, data-in-transit monitoring and endpoint data protection.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1037/" target="_blank">M1037 — Filter Network Traffic</a></td><td>Employ network appliances and endpoint software to filter ingress, egress and lateral network traffic, including protocol-based filtering, network segmentation, and application layer filtering.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1031/" target="_blank">M1031 — Network Intrusion Prevention</a></td><td>Use Intrusion Detection System (IDS) signatures to block traffic at network boundaries.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1030/" target="_blank">M1030 — Network Segmentation</a></td><td>Divide a network into smaller, isolated segments to control and limit the flow of traffic between devices, systems and applications, including implementing a DMZ on public-facing services, restricting traffic with ACLs and firewalls, and monitoring and auditing segmented networks.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1022/" target="_blank">M1022 — Restrict File and Directory Permissions</a></td><td>Least Privilege Access control on file or directory permissions, file integrity monitoring, and auditing file system access.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/mitigations/M1018/" target="_blank">M1018 — User Account Management</a></td><td>Implement and enforce policies for the lifecycle of user accounts including enforcing the Principle of Least-Privilege, implementing MFA, strong password policies and account lockout policies, and properly deactivating dormant accounts when not in use.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1057/" target="_blank" rel="noopener noreferrer">M1057 — Data Loss Prevention</a></td><td>Implementing strategies and technologies to identify, categorize, monitor and control the movement of sensitive data within an organization including: categorization, exfiltration restrictions, data-in-transit monitoring and endpoint data protection.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1037/" target="_blank" rel="noopener noreferrer">M1037 — Filter Network Traffic</a></td><td>Employ network appliances and endpoint software to filter ingress, egress and lateral network traffic, including protocol-based filtering, network segmentation, and application layer filtering.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1031/" target="_blank" rel="noopener noreferrer">M1031 — Network Intrusion Prevention</a></td><td>Use Intrusion Detection System (IDS) signatures to block traffic at network boundaries.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1030/" target="_blank" rel="noopener noreferrer">M1030 — Network Segmentation</a></td><td>Divide a network into smaller, isolated segments to control and limit the flow of traffic between devices, systems and applications, including implementing a DMZ on public-facing services, restricting traffic with ACLs and firewalls, and monitoring and auditing segmented networks.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1022/" target="_blank" rel="noopener noreferrer">M1022 — Restrict File and Directory Permissions</a></td><td>Least Privilege Access control on file or directory permissions, file integrity monitoring, and auditing file system access.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/mitigations/M1018/" target="_blank" rel="noopener noreferrer">M1018 — User Account Management</a></td><td>Implement and enforce policies for the lifecycle of user accounts including enforcing the Principle of Least-Privilege, implementing MFA, strong password policies and account lockout policies, and properly deactivating dormant accounts when not in use.</td></tr>
         </tbody>
       </table>
     </div>
@@ -273,13 +275,13 @@
       <table class="writeup-table">
         <thead><tr><td>Data Source</td><td>Description</td></tr></thead>
         <tbody>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0015/" target="_blank">DS0015 — Application Logs</a></td><td>Email Application Logs contain metadata about emails sent, received, or blocked. These logs can be evaluated using a SIEM tool.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0010/#Cloud%20Storage%20Access" target="_blank">DS0010 — Cloud Storage Access</a></td><td>Monitor for unusual queries to the cloud provider's storage service to detect suspicious cloud storage exfiltration.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0017/#Command%20Execution" target="_blank">DS0017 — Command Execution</a></td><td>Monitor executed commands and arguments that may steal data by exfiltrating it over a different protocol.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0022/#File%20Access" target="_blank">DS0022 — File Access</a></td><td>Monitor for suspicious files accessed in isolation that may indicate data being staged for exfiltration.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Connection%20Creation" target="_blank">DS0029 — Network Connection Creation</a></td><td>Monitor for outbound connections using non-standard ports for FTP, DNS, SMTP or SMB.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Content" target="_blank">DS0029 — Network Traffic Content</a></td><td>Network Packet Captures (Wireshark, Zeek, Suricata/Snort with PCAP logging), Host-Based logging and Cloud/SaaS traffic collection to inspect C2 traffic, exfiltration and suspicious activity within network communications.</td></tr>
-          <tr><td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Flow" target="_blank">DS0029 — Network Traffic Flow</a></td><td>Network Flow Logs (NetFlow, sFlow, Zeek/Bro flow logs), Host-Based logging and Cloud/SaaS flow monitoring for capturing session-level details including source/destination IPs, ports, protocols, timestamps and data volume.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0015/" target="_blank" rel="noopener noreferrer">DS0015 — Application Logs</a></td><td>Email Application Logs contain metadata about emails sent, received, or blocked. These logs can be evaluated using a SIEM tool.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0010/#Cloud%20Storage%20Access" target="_blank" rel="noopener noreferrer">DS0010 — Cloud Storage Access</a></td><td>Monitor for unusual queries to the cloud provider's storage service to detect suspicious cloud storage exfiltration.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0017/#Command%20Execution" target="_blank" rel="noopener noreferrer">DS0017 — Command Execution</a></td><td>Monitor executed commands and arguments that may steal data by exfiltrating it over a different protocol.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0022/#File%20Access" target="_blank" rel="noopener noreferrer">DS0022 — File Access</a></td><td>Monitor for suspicious files accessed in isolation that may indicate data being staged for exfiltration.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Connection%20Creation" target="_blank" rel="noopener noreferrer">DS0029 — Network Connection Creation</a></td><td>Monitor for outbound connections using non-standard ports for FTP, DNS, SMTP or SMB.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Content" target="_blank" rel="noopener noreferrer">DS0029 — Network Traffic Content</a></td><td>Network Packet Captures (Wireshark, Zeek, Suricata/Snort with PCAP logging), Host-Based logging and Cloud/SaaS traffic collection to inspect C2 traffic, exfiltration and suspicious activity within network communications.</td></tr>
+          <tr><td><a href="https://attack.mitre.org/datasources/DS0029/#Network%20Traffic%20Flow" target="_blank" rel="noopener noreferrer">DS0029 — Network Traffic Flow</a></td><td>Network Flow Logs (NetFlow, sFlow, Zeek/Bro flow logs), Host-Based logging and Cloud/SaaS flow monitoring for capturing session-level details including source/destination IPs, ports, protocols, timestamps and data volume.</td></tr>
         </tbody>
       </table>
     </div>

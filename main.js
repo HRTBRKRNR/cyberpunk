@@ -27,29 +27,32 @@
    1. MOBILE NAVIGATION
    ════════════════════════════════════════ */
 
-/**
- * Toggles the mobile dropdown menu open/closed.
- * Called by the hamburger button's onclick attribute.
+/*
+ * Handlers are attached here instead of inline onclick="" attributes
+ * so the Content-Security-Policy can block all inline script.
+ *  - Hamburger button (.hamburger) toggles the menu.
+ *  - Tapping any link inside #mobileMenu closes it.
+ *  - Tapping outside the menu closes it.
  */
 function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('open');
 }
 
-/**
- * Closes the mobile menu.
- * Called by each mobile nav link's onclick attribute so the
- * menu dismisses after the user taps a link.
- */
 function closeMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.remove('open');
 }
 
-// Dismiss the mobile menu when tapping outside of it
 document.addEventListener('click', function (e) {
   const menu = document.getElementById('mobileMenu');
   const btn  = document.querySelector('.hamburger');
-  if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
-    menu.classList.remove('open');
+  if (!menu || !btn) return;
+
+  if (btn.contains(e.target)) {
+    toggleMenu();
+  } else if (!menu.contains(e.target) || e.target.closest('a')) {
+    closeMenu();
   }
 });
 
@@ -181,7 +184,7 @@ observeElements('.animate-in');
   }
 
   function echo(cmd) {
-    print('<span class="t-prompt">❯ </span><span class="t-cmd">' + cmd + '</span>');
+    print('<span class="t-prompt">❯ </span><span class="t-cmd">' + escapeHtml(cmd) + '</span>');
   }
 
   function handleCommand(raw) {
@@ -206,7 +209,7 @@ observeElements('.animate-in');
       ctfs.forEach(function(ctf, i) {
         const num    = '[' + (i + 1) + ']';
         const status = ctf.url
-          ? '<span class="out-link" style="cursor:pointer;" onclick="window.location=\'' + ctf.url + '\'">→ OPEN</span>'
+          ? '<a class="out-link" href="' + escapeHtml(ctf.url) + '">→ OPEN</a>'
           : '<span class="out-dim">[COMING SOON]</span>';
         print('<span class="ctf-cmd-output">' + num + '  [' + ctf.year + ']  <span class="out-label">' + ctf.slug + '</span>  ' + ctf.label + '  ' + status + '</span>');
       });
@@ -348,4 +351,42 @@ observeElements('.animate-in');
       submitLore();
     });
   }
+}());
+
+
+/* ════════════════════════════════════════
+   6. POLAROID LIGHTBOX (lore.html)
+   Moved here from an inline <script> so the CSP can block inline script.
+   ════════════════════════════════════════ */
+
+(function initLightbox() {
+  const lightbox        = document.getElementById('lightbox');
+  const lightboxImg     = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxClose   = document.getElementById('lightboxClose');
+  if (!lightbox || !lightboxImg || !lightboxCaption || !lightboxClose) return;
+
+  document.querySelectorAll('.polaroid').forEach(function(p) {
+    p.addEventListener('click', function() {
+      const img     = p.querySelector('img');
+      const caption = p.querySelector('.polaroid-caption');
+      if (!img) return;
+      lightboxImg.src             = img.src;
+      lightboxImg.alt             = img.alt;
+      lightboxCaption.textContent = caption ? caption.textContent : '';
+      lightbox.classList.add('active');
+    });
+  });
+
+  function closeLightbox() { lightbox.classList.remove('active'); }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
 }());

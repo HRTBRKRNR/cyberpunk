@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>// LORE :: HRTBRKRNR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
@@ -511,36 +513,5 @@
 </div>
 
 <script src="main.js"></script>
-<script>
-  (function() {
-    const lightbox       = document.getElementById('lightbox');
-    const lightboxImg    = document.getElementById('lightboxImg');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const lightboxClose  = document.getElementById('lightboxClose');
-
-    document.querySelectorAll('.polaroid').forEach(function(p) {
-      p.addEventListener('click', function() {
-        const img     = p.querySelector('img');
-        const caption = p.querySelector('.polaroid-caption');
-        lightboxImg.src         = img.src;
-        lightboxImg.alt         = img.alt;
-        lightboxCaption.textContent = caption.textContent;
-        lightbox.classList.add('active');
-      });
-    });
-
-    function closeLightbox() { lightbox.classList.remove('active'); }
-
-    lightboxClose.addEventListener('click', closeLightbox);
-
-    lightbox.addEventListener('click', function(e) {
-      if (e.target === lightbox) closeLightbox();
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeLightbox();
-    });
-  }());
-</script>
 </body>
 </html>
