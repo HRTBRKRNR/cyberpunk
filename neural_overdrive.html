@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://open.spotify.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>// NEURAL OVERDRIVE :: HRTBRKRNR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #06040F; }
+
+    /* ── Background photo (opacity via --od-bg-opacity) ── */
+    .od-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: url('assets/netrunner_home.png') center / cover no-repeat; opacity: var(--od-bg-opacity, .5); }
+
+    /* ── Black wrapper behind small text for legibility over the photo ── */
+    .od-back, .od-tagline, .od-note span { background: rgba(0, 0, 0, .75); padding: .4rem .8rem; border-radius: 3px; }
+
+    /* ── Header ── */
+    .od-hero { text-align: center; padding: 7rem 1.5rem 1.5rem; position: relative; overflow: hidden; }
+    .od-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(95,28,189,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(95,28,189,.1) 1px, transparent 1px); background-size: 48px 48px; animation: gridScroll 20s linear infinite; }
+    .od-hero > * { position: relative; z-index: 2; }
+    .od-back { display: inline-block; font-family: var(--font-mono); font-size: .72rem; color: var(--green-neon); text-decoration: none; letter-spacing: .12em; margin-bottom: 1.25rem; }
+    .od-back:hover { text-shadow: var(--glow-green); }
+    .od-title { font-family: var(--font-display); font-size: clamp(1.8rem, 6vw, 3.4rem); font-weight: 900; color: var(--white); letter-spacing: .06em; line-height: 1.05; }
+    .od-title span { color: var(--magenta); text-shadow: var(--glow-magenta); }
+    .od-tagline { display: inline-block; max-width: 100%; font-family: var(--font-mono); font-size: .8rem; color: var(--magenta); letter-spacing: .15em; margin-top: .75rem; }
+
+    /* ── Stereo rig ── */
+    .rig { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 4rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr) minmax(0, 1fr); gap: 1.75rem; align-items: center; }
+
+    /* Speakers */
+    .speaker { position: relative; aspect-ratio: 3 / 5; border-radius: 10px; border: 2px solid var(--purple-vivid); background: linear-gradient(160deg, #120c33 0%, #080519 60%, #0c0726 100%); box-shadow: var(--glow-purple), inset 0 0 40px rgba(0,0,0,.8); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; padding: 1.25rem .75rem; }
+    .speaker::before { content: ''; position: absolute; inset: 6px; border-radius: 6px; border: 1px solid rgba(211,74,232,.25); pointer-events: none; }
+    .cone { border-radius: 50%; position: relative; }
+    .tweeter { width: 34%; aspect-ratio: 1; background: radial-gradient(circle at 50% 50%, #2b1670 0 14%, #0a0620 15% 48%, var(--magenta) 49% 54%, #0a0620 55%); box-shadow: 0 0 10px rgba(211,74,232,.5); animation: thump 1.6s ease-in-out infinite; }
+    .woofer { width: 78%; aspect-ratio: 1; background: radial-gradient(circle at 50% 50%, #3a1b8f 0 9%, #14094a 10% 24%, #0a0620 25% 44%, #1a0e55 45% 56%, #0a0620 57% 78%, var(--purple-vivid) 79% 84%, #0a0620 85%); box-shadow: 0 0 18px rgba(95,28,189,.7), inset 0 0 22px rgba(0,0,0,.9); animation: thump 1.6s ease-in-out infinite; animation-delay: -.2s; }
+    .speaker-brand { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .25em; color: rgba(240,238,248,.35); }
+    .speaker.right .woofer, .speaker.right .tweeter { animation-delay: -.8s; }
+    @keyframes thump { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+
+    /* Console */
+    .console { border: 2px solid var(--purple-vivid); border-radius: 10px; background: linear-gradient(180deg, #0f0a2c 0%, #080519 100%); box-shadow: var(--glow-purple), inset 0 0 50px rgba(0,0,0,.7); padding: 1.1rem; min-width: 0; }
+    .lcd { display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; color: var(--green-neon); text-shadow: var(--glow-green); background: #02010a; border: 1px solid #1d3a1f; border-radius: 3px; padding: .55rem .8rem; box-shadow: inset 0 0 14px rgba(77,250,84,.1); }
+    .lcd .blink { animation: blink 1.2s steps(2, start) infinite; }
+    @keyframes blink { to { visibility: hidden; } }
+    .eq { display: flex; align-items: flex-end; gap: 4px; height: 56px; margin: .9rem 0; padding: 0 .25rem; }
+    .eq span { flex: 1; height: 100%; background: linear-gradient(to top, var(--green-neon) 0 45%, var(--yellow-neon) 45% 75%, var(--magenta) 75%); transform-origin: bottom; transform: scaleY(.2); animation: eq 1s ease-in-out infinite; border-radius: 1px; opacity: .9; }
+    @keyframes eq { 0%, 100% { transform: scaleY(.15); } 50% { transform: scaleY(1); } }
+    .eq span:nth-child(1) { animation-duration: 0.81s; animation-delay: -0.39s; }
+    .eq span:nth-child(2) { animation-duration: 0.92s; animation-delay: -0.78s; }
+    .eq span:nth-child(3) { animation-duration: 1.03s; animation-delay: -1.17s; }
+    .eq span:nth-child(4) { animation-duration: 1.14s; animation-delay: -0.26s; }
+    .eq span:nth-child(5) { animation-duration: 1.25s; animation-delay: -0.65s; }
+    .eq span:nth-child(6) { animation-duration: 1.36s; animation-delay: -1.04s; }
+    .eq span:nth-child(7) { animation-duration: 1.47s; animation-delay: -0.13s; }
+    .eq span:nth-child(8) { animation-duration: 1.58s; animation-delay: -0.52s; }
+    .eq span:nth-child(9) { animation-duration: 0.70s; animation-delay: -0.91s; }
+    .eq span:nth-child(10) { animation-duration: 0.81s; animation-delay: -0.00s; }
+    .eq span:nth-child(11) { animation-duration: 0.92s; animation-delay: -0.39s; }
+    .eq span:nth-child(12) { animation-duration: 1.03s; animation-delay: -0.78s; }
+    .eq span:nth-child(13) { animation-duration: 1.14s; animation-delay: -1.17s; }
+    .eq span:nth-child(14) { animation-duration: 1.25s; animation-delay: -0.26s; }
+    .eq span:nth-child(15) { animation-duration: 1.36s; animation-delay: -0.65s; }
+    .eq span:nth-child(16) { animation-duration: 1.47s; animation-delay: -1.04s; }
+    .eq span:nth-child(17) { animation-duration: 1.58s; animation-delay: -0.13s; }
+    .eq span:nth-child(18) { animation-duration: 0.70s; animation-delay: -0.52s; }
+    .eq span:nth-child(19) { animation-duration: 0.81s; animation-delay: -0.91s; }
+    .eq span:nth-child(20) { animation-duration: 0.92s; animation-delay: -0.00s; }
+
+    .player-bay { border: 1px solid var(--grey-dim); border-radius: 8px; background: #05030f; padding: .6rem; box-shadow: inset 0 0 20px rgba(95,28,189,.25), 0 0 12px rgba(95,28,189,.3); }
+    .player-bay iframe { display: block; width: 100%; border: 0; border-radius: 12px; }
+    .deck { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+    .knobs { display: flex; gap: 1.1rem; }
+    .knob { width: 38px; height: 38px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #3a2a8a, #0b0728 70%); border: 2px solid var(--purple-vivid); box-shadow: 0 0 8px rgba(95,28,189,.6); position: relative; }
+    .knob::after { content: ''; position: absolute; left: 50%; top: 4px; width: 2px; height: 11px; background: var(--yellow-neon); box-shadow: var(--glow-yellow); transform-origin: 50% 15px; transform: translateX(-50%) rotate(var(--rot, 0deg)); }
+    .leds { display: flex; gap: .5rem; }
+    .led { width: 10px; height: 10px; border-radius: 50%; }
+    .led.g { background: var(--green-neon); box-shadow: var(--glow-green); }
+    .led.y { background: var(--yellow-neon); box-shadow: var(--glow-yellow); }
+    .led.m { background: var(--magenta); box-shadow: var(--glow-magenta); }
+    .od-open { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; color: var(--green-neon); text-decoration: none; border: 1px solid var(--green-neon); border-radius: 2px; padding: .5rem .9rem; white-space: nowrap; }
+    .od-open:hover { background: rgba(77,250,84,.08); text-shadow: var(--glow-green); }
+    .vents { display: flex; gap: 5px; margin-top: 1rem; }
+    .vents i { flex: 1; height: 5px; background: #0a0620; border: 1px solid #1c1546; border-radius: 3px; }
+    .od-note { text-align: center; font-family: var(--font-mono); font-size: .7rem; color: var(--magenta); letter-spacing: .12em; padding: 0 1.5rem 4rem; }
+
+    @media (max-width: 900px) {
+      .rig { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 1.5rem 1rem 3rem; gap: 1.25rem; }
+      .console { grid-column: 1 / -1; order: -1; }
+      .speaker { aspect-ratio: 4 / 5; }
+    }
+    @media (max-width: 480px) {
+      .od-hero { padding-top: 6rem; }
+      .console { padding: .75rem; }
+      .deck { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tweeter, .woofer, .eq span, .lcd .blink, .od-hero::before { animation: none; }
+      .eq span { transform: scaleY(.5); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="od-bg" aria-hidden="true"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">SYS_<span>HRTBRKRNR</span>.exe</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">ABOUT</a></li>
+    <li><a href="index.html#ctf">CTF</a></li>
+    <li><a href="index.html#articles">ARTICLES</a></li>
+    <li><a href="index.html#contact">CONTACT</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about">ABOUT</a>
+  <a href="index.html#ctf">CTF WRITE-UPS</a>
+  <a href="index.html#articles">ARTICLES</a>
+  <a href="index.html#contact">CONTACT</a>
+</div>
+
+<div class="od-hero">
+  <a href="index.html" class="od-back">&larr; BACK TO BASE</a>
+  <h1 class="od-title">NEURAL <span>OVERDRIVE</span></h1>
+  <p class="od-tagline">// the soundtrack to the grind. press play, choom.</p>
+</div>
+
+<main class="rig">
+
+  <div class="speaker left" aria-hidden="true">
+    <div class="cone tweeter"></div>
+    <div class="cone woofer"></div>
+    <div class="speaker-brand">HRTBRKRNR</div>
+  </div>
+
+  <section class="console" aria-label="Neural Overdrive playlist player">
+    <div class="lcd" aria-hidden="true">
+      <span>&gt;_ NEURAL_OVERDRIVE.RUN</span>
+      <span>CH-01 <span class="blink">&#9608;</span></span>
+    </div>
+    <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="player-bay">
+      <iframe title="Neural Overdrive Spotify playlist" src="https://open.spotify.com/embed/playlist/4Yc3HUQfI9r1GEtzrD7stL?utm_source=generator&amp;theme=0" height="425" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <div class="deck">
+      <div class="knobs" aria-hidden="true">
+        <div class="knob" style="--rot: -50deg;"></div>
+        <div class="knob" style="--rot: 20deg;"></div>
+        <div class="knob" style="--rot: 70deg;"></div>
+      </div>
+      <div class="leds" aria-hidden="true"><span class="led g"></span><span class="led y"></span><span class="led m"></span></div>
+      <a class="od-open" href="https://open.spotify.com/playlist/4Yc3HUQfI9r1GEtzrD7stL" target="_blank" rel="noopener noreferrer">OPEN IN SPOTIFY &rarr;</a>
+    </div>
+    <div class="vents" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <div class="speaker right" aria-hidden="true">
+    <div class="cone tweeter"></div>
+    <div class="cone woofer"></div>
+    <div class="speaker-brand">HRTBRKRNR</div>
+  </div>
+
+</main>
+
+<p class="od-note"><span>[ PLAYER LOADS FROM SPOTIFY // IF IT DOESN'T SHOW, USE "OPEN IN SPOTIFY" ]</span></p>
+
+<footer>
+  <span class="footer-copy" id="site-copyright"></span>
+  <span class="footer-tag">[ STAY CURIOUS // STAY SHARP // END TRANSMISSION ]</span>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

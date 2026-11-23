@@ -1290,3 +1290,8 @@ footer {
   .certs-grid  { grid-template-columns: 1fr; }
   .btn         { text-align: center; font-size: .7rem; padding: .6rem 1rem; }
 }
+
+/* Three hero buttons: allow wrapping on narrower desktops */
+@media (min-width: 769px) and (max-width: 1100px) {
+  .hero-cta { flex-wrap: wrap; }
+}
